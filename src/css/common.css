@@ -17,11 +17,12 @@ img {
   display: block;
   max-width: 100%;
 }
-
+/*________________ TASK 1______________________ */
 .wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .wrapper button {
@@ -37,4 +38,25 @@ border: 0px;
 
 [data-start] {
   margin-right: 20px;
+}
+
+/*________________ TASK 3______________________ */
+.form {
+  margin-left: 20;
+}
+
+.form div{
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.form input{
+  display: block;
+  padding: 8px 5px;
+  margin-right: 20px;
+}
+
+.form button{
+  width: 570px;
+  padding: 8px 0px;
 }

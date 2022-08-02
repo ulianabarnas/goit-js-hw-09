@@ -4,15 +4,9 @@ const stopBtn = document.querySelector('[data-stop]');
 class ColorSwitcher {
   constructor() {
     this.intervalId = null;
-    this.isActive = false;
   }
 
   start() {
-    if (this.isActive) {
-      return;
-    }
-
-    this.isActive = true;
     this.updateBackgroundColor();
 
     this.intervalId = setInterval(() => {
@@ -22,7 +16,6 @@ class ColorSwitcher {
 
   stop() {
     clearInterval(this.intervalId);
-    this.isActive = false;
   }
 
   getRandomHexColor() {
