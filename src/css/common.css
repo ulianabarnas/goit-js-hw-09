@@ -10,7 +10,7 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
-  margin: 0;
+  margin: 0 0 0 20px;
 }
 
 img {
@@ -40,10 +40,30 @@ border: 0px;
   margin-right: 20px;
 }
 
-/*________________ TASK 3______________________ */
-.form {
-  margin-left: 20;
+/*________________ TASK 2______________________ */
+.timer {
+  display: flex;
+  margin-top: 20px;
 }
+
+.timer span {
+  display: block;
+}
+
+.field {
+  text-align: center;
+}
+
+.field:not(:last-child) {
+margin-right: 20px;
+}
+
+.value {
+  font-size: 35px;
+}
+
+
+/*________________ TASK 3______________________ */
 
 .form div{
   display: flex;
