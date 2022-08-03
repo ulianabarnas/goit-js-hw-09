@@ -20,13 +20,7 @@ function onFormSubmit(e) {
       let position = 1;
       let intervalDelay = delay + step;
 
-      createPromise(position, delay)
-        .then(({ position, delay }) => {
-          Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        })
-        .catch(({ position, delay }) => {
-          Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-        });
+      getPromiseNotification(position, delay);
 
       const intervalId = setInterval(() => {
         if (position >= amount) {
@@ -37,13 +31,8 @@ function onFormSubmit(e) {
 
         position += 1;
 
-        createPromise(position, intervalDelay)
-          .then(({ position, delay }) => {
-            Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-          })
-          .catch(({ position, delay }) => {
-            Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-          });
+        getPromiseNotification(position, intervalDelay);
+
         intervalDelay += step;
       }, step);
     },
@@ -63,6 +52,16 @@ function createPromise(position, delay) {
       reject({ position, delay });
     }
   });
+}
+
+function getPromiseNotification(position, delay) {
+  createPromise(position, delay)
+    .then(({ position, delay }) => {
+      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    })
+    .catch(({ position, delay }) => {
+      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+    });
 }
 
 Notify.init({
