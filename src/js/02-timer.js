@@ -19,7 +19,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     deadline = selectedDates[0];
-    deltaOnClose = deadline - options.defaultDate;
+    const deltaOnClose = deadline - options.defaultDate;
 
     if (deltaOnClose < 1000) {
       Notify.failure('Please choose a date in the future');
@@ -33,6 +33,10 @@ const options = {
 };
 
 flatpickr('#datetime-picker', options);
+
+Notify.init({
+  timeout: 6000,
+});
 
 refs.startBtn.addEventListener('click', onStartBtnClick);
 
