@@ -10,7 +10,6 @@ const refs = {
   seconds: document.querySelector('[data-seconds]'),
 };
 
-// let delta;
 let deadline;
 
 const options = {
@@ -20,15 +19,14 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     deadline = selectedDates[0];
+    deltaOnClose = deadline - options.defaultDate;
 
-    delta = deadline - options.defaultDate;
-
-    if (delta <= 0) {
+    if (deltaOnClose < 1000) {
       Notify.failure('Please choose a date in the future');
       refs.startBtn.setAttribute('disabled', true);
     }
 
-    if (delta > 0) {
+    if (deltaOnClose >= 1000) {
       refs.startBtn.removeAttribute('disabled');
     }
   },
@@ -38,45 +36,48 @@ flatpickr('#datetime-picker', options);
 
 refs.startBtn.addEventListener('click', onStartBtnClick);
 
-// let intervalId;
-
 function onStartBtnClick() {
-  const intervalId = setInterval(() => {
-    // console.log(deadline);
-    const currentTime = Date.now();
-    const deltaTime = deadline - currentTime;
-    if (deltaTime <= 0) {
-      console.log('deltaTime === 0');
-      clearInterval(intervalId);
-    }
-    // console.log(deltaTime);
-    const { days, hours, minutes, seconds } = convertMs(deltaTime);
+  refs.startBtn.setAttribute('disabled', true);
 
-    refs.days.textContent = addLeadingZero(days);
-    refs.hours.textContent = addLeadingZero(hours);
-    refs.minutes.textContent = addLeadingZero(minutes);
-    refs.seconds.textContent = addLeadingZero(seconds);
-    // console.log(time);
+  const deltaOnStart = getDelta();
+
+  if (deltaOnStart < 1000) {
+    Notify.failure(
+      '😴 Your time is over before you click Start. Please choose a date one more time'
+    );
+    return;
+  }
+
+  updateInterface(deltaOnStart);
+
+  const intervalId = setInterval(() => {
+    const deltaInterval = getDelta();
+
+    if (deltaInterval < 1000) {
+      clearInterval(intervalId);
+      Notify.success('Time is over!');
+    }
+
+    updateInterface(deltaInterval);
   }, 1000);
+}
+
+function getDelta() {
+  return deadline - Date.now();
+}
+
+function updateInterface(delta) {
+  const { days, hours, minutes, seconds } = convertMs(delta);
+
+  refs.days.textContent = addLeadingZero(days);
+  refs.hours.textContent = addLeadingZero(hours);
+  refs.minutes.textContent = addLeadingZero(minutes);
+  refs.seconds.textContent = addLeadingZero(seconds);
 }
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
-
-// function onStartBtnClick() {
-//   intervalId = setInterval(countdownTimer, 1000);
-// }
-
-// function countdownTimer() {
-//   console.log(convertMs(delta));
-//   delta -= 1000;
-//   const { allTimeInSec } = convertMs(delta);
-
-//   if (allTimeInSec < 0 && intervalId) {
-//     clearInterval(intervalId);
-//   }
-// }
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
