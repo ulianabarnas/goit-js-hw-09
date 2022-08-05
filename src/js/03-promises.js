@@ -26,7 +26,10 @@ function onFormSubmit(e) {
 
     delay += step;
   }
-  isActive = false;
+
+  setTimeout(() => {
+    isActive = false;
+  }, (delay -= step));
 }
 
 function createPromise(position, delay) {
